@@ -28,6 +28,9 @@ body{
 #questions {
     display: none;
 }
+#results {
+    display: none;
+}
 h1 {
     margin-top: 10%;
 }
