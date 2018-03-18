@@ -2,50 +2,70 @@ $(document).ready(function(){
 
 var q1 = {
         question : "this is a random question 1",
-        correctAnswer : ["correct answer"],
-        wrongAnswers : ["wrong answer1", "wrong answer2", "wrong answer 3"],
+        correctAnswer : "correct answer",
         combinedAnswers: ["correct answer", "wrong answer1", "wrong answer2", "wrong answer 3"]
     }
 var q2 = {
     question : "this is a random question 2",
-    correctAnswer : ["2correct answer"],
-    wrongAnswers : ["2wrong answer1", "2wrong answer2", "2wrong answer 3"],
+    correctAnswer : "2correct answer",
     combinedAnswers: ["2correct answer", "2wrong answer1", "2wrong answer2", "2wrong answer 3"]
 }
 var q3 = {
     question : "this is a random question 3",
-    correctAnswer : ["3correct answer"],
-    wrongAnswers : ["3wrong answer1", "3wrong answer2", "3wrong answer 3"],
+    correctAnswer : "3correct answer",
     combinedAnswers: ["3correct answer", "3wrong answer1", "3wrong answer2", "3wrong answer 3"]
 }
 var q4 = {
         question : "this is a random question 4",
-        correctAnswer : ["4correct answer"],
-        wrongAnswers : ["4wrong answer1", "4wrong answer2", "4wrong answer 3"],
+        correctAnswer : "4correct answer",
         combinedAnswers: ["4correct answer", "4wrong answer1", "4wrong answer2", "4wrong answer 3"]
     }
     var q5 = {
         question : "this is a random question 5",
-        correctAnswer : ["5correct answer"],
-        wrongAnswers : ["5wrong answer1", "5wrong answer2", "5wrong answer 3"],
+        correctAnswer : "5correct answer",
         combinedAnswers: ["5correct answer", "5wrong answer1", "5wrong answer2", "5wrong answer 3"]
     }
     var q6 = {
         question : "this is a random question 6",
-        correctAnswer : ["6correct answer"],
-        wrongAnswers : ["6wrong answer1", "6wrong answer2", "6wrong answer 3"],
+        correctAnswer : "6correct answer",
         combinedAnswers: ["6correct answer", "6wrong answer1", "6wrong answer2", "6wrong answer 3"]
     }
     
     var allObjects= [q1, q2, q3 , q4, q5, q6];
+    var questionIndex = 0;
 
-    
+    var timer = {
+        time : 10,
+        start : countdown = function() {setInterval( function(){
+            if (timer.time > 0){
+                $('.timer').html("00:00:" + timer.time--);}
+                else {
+                    timeOut();
+                    clearInterval(this);
+                    timer.time = 10;
+                    setTimeout(() => {
+                        nextQuestionShinanigans();
+                    }, 3000);
+                    // resetTimer();
+                }
+                }, 1000)},
+
+        reset: function(){
+            this.time = 10;
+            $('.timer').html("00:00:" + timer.time);
+        },
+        stop: function(){
+            clearInterval(countdown);
+        }
+        
+        }
 
     $('#startButton').on("click", function startFunction(){
         $('#start').hide();
+        load(questionIndex);
         $('#questions').show();
         $('#results').hide();
-        
+        timer.start();
     })
     
 // Shuffling questions and answers -------------------------------------------------
@@ -63,67 +83,212 @@ var q4 = {
         return array;
       }
 // ------------------------------------------------------------------------------------
+
+var questionsCorrect = 0;
+$('#questionsCorrect').text("Questions correct: " + questionsCorrect);
+var questionsWrong = 0;
+$('#questionsWrong').text("Questions wrong: " + questionsWrong);
+var questionsUnanswered = 0;
+$('#questionsUnanswered').text("Questions unanswered: " + questionsUnanswered);
+
+function win(){
+    houdini();
+    questionsCorrect++;
+    $('#questionsCorrect').text("Questions correct: " + questionsCorrect);
+    
+};
+function lose(){
+    houdini();
+    questionsWrong++;
+    $('#questionsWrong').text("Questions wrong: " + questionsWrong);
+    
+};
+function timeOut(){
+    if(questionIndex < allObjects.length){
+    $('#start').hide();
+    houdini();
+    questionsUnanswered++;
+    $('#questionsUnanswered').text("Questions unanswered: " + questionsUnanswered);
+} 
+};
+
+function houdini(){
+    questionIndex++;
+    $('#randomQuestion').empty();
+    $('.answers').empty();
+    $('#questions').hide();
+    $('#results').show();
+}
+
+
+
+
+// var questionIndex = 0;
       shuffle(allObjects);
-
-      for (i = 0; i < allObjects.length; i++){
-        let ques = allObjects[i].question;
-        $('#randomQuestion').html(ques);
-        let ans = allObjects[i].combinedAnswers
-        shuffle(ans);
-        $('#answerA').text(ans[0]);
-        $('#answerB').text(ans[1]);
-        $('#answerC').text(ans[2]);
-        $('#answerD').text(ans[3]);
-
-        $('.answer').on("click", function loadNext(){
-            if ($('.answer').value === allObjects[i].correctAnswer){
-                win();
-                console.log($('.answer').value);
-
-            }
-        });
+      shuffle(allObjects[questionIndex].combinedAnswers);
+    //   $('#randomQuestion').append(allObjects[this.questionIndex].question);
+    function nextQuestionShinanigans(){
+        if ( questionIndex < allObjects.length){
+            timer.stop();
+            timer.reset();
+            
+            load();
+            
+            $('#questions').show();
+            $('#results').hide();
+            console.log(questionIndex);
+        }
+        else if (questionIndex = allObjects.length) {
+            $('#questions').hide();
+            $('#results').show();
+            timer.stop();
+            // $('#results').append("<button class='reset btn btn-primary abtn'>Reset Game</button>");
+            // $('.reset').on("click", resetGame)
+            
+        }
     }
+    function load(){
+        if(questionIndex < allObjects.length){
+    $('#randomQuestion').append(allObjects[questionIndex].question)};
+    for (i =0; i < allObjects[questionIndex].combinedAnswers.length; i++){
+        $('.answers').append("<button class='btnAnswer btn btn-primary abtn'>" + allObjects[questionIndex].combinedAnswers[i] + "</button>")
+        };
+        
+        console.log(allObjects[questionIndex].question)
+    }
+
+    // Answer check-----------------------------------------------
+    var correctAnswers = [q1.correctAnswer, q2.correctAnswer, q3.correctAnswer, q4.correctAnswer, q5.correctAnswer, q6.correctAnswer]
+
+    console.log(correctAnswers);
+    $('.answers').on("click",".btnAnswer", function answerCheck(){
+       console.log(this)
+    //    if(timer.time = 0){
+    //        timeOut();
+    //        timer.stop();
+    //    }
+        
+        if ($(this).text() === correctAnswers[0] || $(this).text() === correctAnswers[1] || $(this).text() === correctAnswers[2] || $(this).text() === correctAnswers[3] || $(this).text() === correctAnswers[4] || $(this).text() === correctAnswers[5]){
+            timer.stop();
+            console.log($(this).text());
+            win();
+            setTimeout(() => {
+                nextQuestionShinanigans();
+            }, 3000);
+            
+            console.log('win')
+        } else { console.log('wrong');
+        timer.stop();
+        lose();
+        setTimeout(() => {
+            nextQuestionShinanigans();
+        }, 3000);
+        };
+    
+    });
     // Timer----------------------------------------------------------
-    var sec = 30
-    var timer = setInterval(function() { 
-    $('.timer').html("00:00:" + sec--);
-    if (sec === 0) {
-        timeOut();
-        clearInterval(timer);
-    }
-    }, 1000);
+
+    // var sec = 10
+    // var timer = setInterval(function () { 
+    //     if (sec > 0){
+    // $('.timer').html("00:00:" + sec--);}
+    // else {
+    //     timeOut();
+    //     setTimeout(() => {
+    //         nextQuestionShinanigans();
+    //     }, 5000);
+    //     // resetTimer();
+    //     clearInterval(timer);
+    //     sec = 10;
+    // }
+    // }, 1000);
+
+    // var timer = {
+    //     time : 10,
+    //     start : countdown = function() {setInterval( function(){
+    //         if (time > 0){
+    //             $('.timer').html("00:00:" + time--);}
+    //             else {
+    //                 timeOut();
+    //                 setTimeout(() => {
+    //                     nextQuestionShinanigans();
+    //                 }, 5000);
+    //                 // resetTimer();
+    //                 clearInterval(this);
+    //                 time = 10;
+    //             }
+    //             }, 1000)},
+
+    //     reset: function(){
+    //         this.time = 10;
+    //         $('.timer').html("00:00:" + time);
+    //     },
+    //     stop: function(){
+    //         clearInterval(countdown);
+    //     }
+        
+    //     }
+    
+
     // ---------------------------------------------------------------
-    var questionsCorrect = 0;
-    $('#questionsCorrect').text(questionsCorrect);
-    var questionsWrong = 0;
-    $('#questionsWrong').text(questionsWrong);
-    var questionsUnanswered = 0;
-    $('#questionsUnanswered').text(questionsUnanswered);
+    // var questionsCorrect = 0;
+    // $('#questionsCorrect').text("Questions correct: " + questionsCorrect);
+    // var questionsWrong = 0;
+    // $('#questionsWrong').text("Questions wrong: " + questionsWrong);
+    // var questionsUnanswered = 0;
+    // $('#questionsUnanswered').text("Questions unanswered: " + questionsUnanswered);
 
-    function win(){
-        $('#questions').hide();
-        $('#results').show();
-        questionsCorrect++;
-        $('#questionsCorrect').text(questionsCorrect);
+    // function win(){
+    //     houdini();
+    //     questionsCorrect++;
+    //     $('#questionsCorrect').text("Questions correct: " + questionsCorrect);
+        
+    // };
+    // function lose(){
+    //     houdini();
+    //     questionsWrong++;
+    //     $('#questionsWrong').text("Questions wrong: " + questionsWrong);
+        
+    // };
+    // function timeOut(){
+    //     $('#start').hide();
+    //     houdini();
+    //     questionsUnanswered++;
+    //     $('#questionsUnanswered').text("Questions unanswered: " + questionsUnanswered);
+        
+    // };
 
-    };
-    function lose(){
-        $('#questions').hide();
-        $('#results').show();
-        questionsWrong++;
-        $('#questionsWrong').text(questionsWrong);
+    // function houdini(){
+    //     questionIndex++;
+    //     $('#randomQuestion').empty();
+    //     $('.answers').empty();
+    //     $('#questions').hide();
+    //     $('#results').show();
+    // }
+    // if( questionsCorrect + questionsUnanswered + questionsWrong <= 6){
+    // function gamePlay(){
+    //     nextQuestionShinanigans();
+    // }} else {
+    //     nextQuestionShinanigans().stop();
+    // }
+    // function resetGame(){
+    //     $('#start').show();
+    //     $('#questions').hide();
+    //     $('#results').hide();
+    //     var questionIndex = 0;
+    //     var questionsCorrect = 0;
+    //     var questionsUnanswered = 0;
+    //     var questionsWrong = 0;
+    //     timer.stop();
+    //     timer.reset();
+    //     timer.time = 10;
+    //     nextQuestionShinanigans().stop();
+    //     load().stop();
+    // }
 
-    };
-    function timeOut(){
-        $('#questions').hide();
-        $('#results').show();
-        questionsUnanswered++;
-        $('#questionsUnanswered').text(questionsUnanswered);
-
-    };
-
-
-
-
+    // // if ( questionsCorrect + questionsUnanswered + questionsWrong == 6){
+    //     $('#results').append("<button class='reset btn btn-primary abtn'>Reset Game</button>");
+    //             $('.reset').on("click", resetGame)
+    // }
 
 });
