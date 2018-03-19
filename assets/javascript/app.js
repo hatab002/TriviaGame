@@ -6,39 +6,50 @@ var questionsWrong = 0;
 $(document).ready(function(){
 
 var q1 = {
-        question : "this is a random question 1",
-        correctAnswer : "correct answer",
-        combinedAnswers: ["correct answer", "wrong answer1", "wrong answer2", "wrong answer 3"]
+        question : "What are the only birds known to fly backwards?",
+        correctAnswer : "Hummingbirds",
+        combinedAnswers: ["Hummingbirds", "Eagles", "Cardinals", "Hawks"]
         }
 var q2 = {
-    question : "this is a random question 2",
-    correctAnswer : "2correct answer",
-    combinedAnswers: ["2correct answer", "2wrong answer1", "2wrong answer2", "2wrong answer 3"]
+    question : "What is the largest living bird by wingspan?",
+    correctAnswer : "Wandering Albatross",
+    combinedAnswers: ["Wandering Albatross", "Ostrich", "Bald Eagle", "Emu"]
         }
 var q3 = {
-    question : "this is a random question 3",
-    correctAnswer : "3correct answer",
-    combinedAnswers: ["3correct answer", "3wrong answer1", "3wrong answer2", "3wrong answer 3"]
+    question : "What is a group of parrots called?",
+    correctAnswer : "Pandemonium",
+    combinedAnswers: ["Pandemonium", "Flock", "School", "None of the above"]
         }
 var q4 = {
-        question : "this is a random question 4",
-        correctAnswer : "4correct answer",
-        combinedAnswers: ["4correct answer", "4wrong answer1", "4wrong answer2", "4wrong answer 3"]
+        question : "What is a baby swan called?",
+        correctAnswer : "A cygnet",
+        combinedAnswers: ["A cygnet", "An eyasse", "A swanlet", "A poult"]
         }
 var q5 = {
-        question : "this is a random question 5",
-        correctAnswer : "5correct answer",
-        combinedAnswers: ["5correct answer", "5wrong answer1", "5wrong answer2", "5wrong answer 3"]
+        question : "What is the maximum speed of a chicken?",
+        correctAnswer : "9 mph",
+        combinedAnswers: ["9 mph", "15 mph", "2 mph", "5 mph"]
         }
 var q6 = {
-        question : "this is a random question 6",
-        correctAnswer : "6correct answer",
-        combinedAnswers: ["6correct answer", "6wrong answer1", "6wrong answer2", "6wrong answer 3"]
+        question : "Which of these birds can sleep AND fly at the same time?",
+        correctAnswer : "An albatross",
+        combinedAnswers: ["An albatross", "A duck", "A pelican", "An owl"]
         }
         
 var allObjects= [q1, q2, q3 , q4, q5, q6];
 var questionIndex = 0;
+
+function startGame(){
+    timer.start();
+    load(questionIndex);
+    $('#start').hide();
+    $('#questions').show();
+    $('.reset').hide();
+    $('#results').hide();
+    }
     
+$('#startButton').on("click", startGame);
+
 var timer = {
     time : 10,
     start : countdown = function() {
@@ -62,17 +73,6 @@ var timer = {
     stop: function(){clearInterval(countdown);}
             
             }
-function startGame(){
-    timer.start();
-    load(questionIndex);
-    $('#start').hide();
-    $('#questions').show();
-    $('.reset').hide();
-    $('#results').hide();
-    }
-    
-$('#startButton').on("click", startGame);
-        
 // Shuffling questions and answers -------------------------------------------------
 function shuffle(array) {
     var currentIndex = array.length, tempValue, randomIndex; 

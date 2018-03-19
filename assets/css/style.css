@@ -1,5 +1,7 @@
 body{
-    background-color: rgb(228, 122, 72);
+    /* background-color: rgb(228, 122, 72); */
+    /* background-image: url(http://www.pptbackgroundstemplates.com/backgrounds/angry-birds-ppt-backgrounds-powerpoint.jpg) */
+    background-image: url(../images/background2.jpg);
     width: 100%;
     overflow: hidden;
     font-family: 'Bangers', cursive;
@@ -12,18 +14,19 @@ body{
     margin-top: 5%;
     border-style: dotted; 
     border-width: 1px;
-    background-color: rgb(109, 206, 146);
+    background-color: rgb(170, 201, 241);
 
 }
 .btn {
-    background-color: teal;
+    background-color: rgb(236, 52, 52);
     
 }
 .abtn {
     display: block;
-    margin-left: 12%;
+    margin-left: 15%;
     width: 500px;
     margin-top: 15px;
+    font-size: 25px;
 }
 #questions {
     display: none;
